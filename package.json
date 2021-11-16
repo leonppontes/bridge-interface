@@ -1,0 +1,11 @@
+{
+  "name": "bridge-interface",
+  "version": "1.0.0",
+  "description": "Interface between Bridges Project and third prty software via SNMP agent creation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Leon Pontes",
+  "license": "ISC"
+}
