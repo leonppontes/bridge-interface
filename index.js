@@ -21,8 +21,8 @@ var callback = function (error, data) {
 
 agent = snmp.createAgent (options, callback);
 
-var myScalarProvider = {
-    name: "systemForwardPower",
+var provider1 = {
+    name: "var1",
     type: snmp.MibProviderType.Scalar,
     oid: "1.3.6.1.2.1.1.1",
     scalarType: snmp.ObjectType.Integer32,
@@ -33,20 +33,53 @@ var myScalarProvider = {
     }
 };
 
+var provider2 = {
+    name: "var2",
+    type: snmp.MibProviderType.Scalar,
+    oid: "1.3.6.1.2.1.1.2",
+    scalarType: snmp.ObjectType.Integer32,
+    maxAccess: snmp.MaxAccess["read-write"],
+    handler: function (mibRequest) {
+       // e.g. can update the MIB data before responding to the request here
+       mibRequest.done ();
+    }
+};
+
+var provider3 = {
+    name: "var3",
+    type: snmp.MibProviderType.Scalar,
+    oid: "1.3.6.1.2.1.1.3",
+    scalarType: snmp.ObjectType.Integer32,
+    maxAccess: snmp.MaxAccess["read-write"],
+    handler: function (mibRequest) {
+       // e.g. can update the MIB data before responding to the request here
+       mibRequest.done ();
+    }
+};
+
+//The registerProvider() call adds the provider to the list of providers that 
+//the MIB holds. Note that this call does not add the "oid" node to the MIB 
+//tree. The first call of setScalarValue() will add the instance OID "1.3.6.1.2.1.1.1.0" to 
+//the MIB tree, along with its value
+
+//An Agent instance, when created, in turn creates an instance of the Mib class. 
+//An agent always has one and only one Mib instance. The agent's Mib instance is
+// accessed through the agent.getMib () call.
 function updateMib() {
     var mib = agent.getMib ();
-    mib.registerProvider (myScalarProvider);
-    mib.setScalarValue ("systemForwardPower", maxValue);
+    mib.registerProvider (provider1);
+    mib.registerProvider (provider2);
+    mib.registerProvider (provider3);
+    mib.setScalarValue ("var1", maxValue);
+    ib.setScalarValue ("var2", maxValue);
+    ib.setScalarValue ("var3", maxValue);
     mib.dump ();
 }
 
 function closeAll(){
-    session1.close ();
-    session2.close ();
     agent.close ()
 }
 
-setTimeout(max, 100);
 setTimeout(updateMib, 150);
 setTimeout(closeAll, 9500);
   }
