@@ -1,4 +1,24 @@
+var mqtt = require("mqtt");
 var snmp = require ("net-snmp");
+
+var client  = mqtt.connect("mqtt://broker.hivemq.com");
+
+client.on("connect", function () {
+  client.subscribe("Bridge001", function (err) {
+    if (!err) {
+      console.log("Conectado ao servidor");
+    }
+  })
+})
+
+client.on("message", function (topic, message) {
+  // message is Buffer
+  if (topic == "Bridge001"){
+    console.log(message.toString());
+    client.end();
+  };
+});
+  
 
 function intervalFunc() {
 
@@ -82,6 +102,6 @@ function closeAll(){
 
 setTimeout(updateMib, 150);
 setTimeout(closeAll, 9500);
-  }
+}
   
 setInterval(intervalFunc, 10000);
