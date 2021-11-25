@@ -9,6 +9,7 @@
   "author": "Leon Pontes",
   "license": "ISC",
   "dependencies": {
-    "mqtt": "^4.2.8"
+    "mqtt": "^4.2.8",
+    "net-snmp": "^3.5.8"
   }
 }
